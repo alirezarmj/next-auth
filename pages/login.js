@@ -10,7 +10,7 @@ const LoginPage = () => {
   useEffect(() => {
     getSession().then(session => {
       if (session) {
-        router.replace('/')
+        router.replace('/')    //when a session is ok If anyone add a address to address bar this will redirect to Homepage
       } else {
         setIsLoading(false)
       }

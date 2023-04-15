@@ -3,6 +3,7 @@
 
 import axios from "axios";
 import { useRef } from "react"
+import { toast } from "react-toastify";
 
 // import { getSession } from "next-auth/react"
 
@@ -30,15 +31,49 @@ const ProfileForm = () => {
     e.preventDefault();
     const enteredOldpass = oldPassRef.current.value;
     const enteredNewpass = newPassRef.current.value;
+    if (!enteredNewpass || enteredNewpass.trim().length < 6) {
+      toast.error('Invalid input-password should also be at least 6 characters long', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      return;
+    }
     try {
       const response = await axios.patch('/api/user/change-password',
         {
           oldPassword: enteredOldpass,
           newPassword: enteredNewpass
         })
-      console.log(response.data)
+        toast.success('Password Changed Successfully', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          });
+      // console.log(response.data)
     } catch (error) {
-      console.log(error.message)
+      if (error.response.status === 403) {
+        toast.error(' Invalid Password', {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      }
     }
   }
 

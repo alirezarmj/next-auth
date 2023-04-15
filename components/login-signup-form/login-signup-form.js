@@ -66,15 +66,45 @@ const LoginSignup = () => {
                     });
             }
             console.log(result.error)
-        } else {
-            if (!enteredEmail || !enteredEmail.includes('@') || !enteredPass || enteredPass.trim().length < 7) {
+        } else { //user creating mode
+            if (!enteredEmail || !enteredEmail.includes('@') || !enteredPass || enteredPass.trim().length < 6) {
+                toast.error(' Invalid input-password should also be at least 6 characters long', {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                  });
                 return;
             }
             try {
                 const response = await axios.post('/api/auth/signup', ({ email: enteredEmail, password: enteredPass }))
-                console.log(response.data)
+                toast.success('User Created Successfully', {
+                    position: "bottom-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    });
             } catch (error) {
-                console.log(error.response.status)
+                 if(error.response.status === 400){
+                    toast.info('User exist already!', {
+                        position: "bottom-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                        });
+                  }
             }
         }
 
