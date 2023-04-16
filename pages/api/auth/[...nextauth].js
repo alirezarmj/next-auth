@@ -6,10 +6,10 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 
 export default NextAuth({
-    session: {
-        jwt: true
-    },
-    secret: process.env.NEXT_PUBLIC_SECRET,
+    // session: {
+    //     jwt: true
+    // },
+    secret: process.env.NEXTAUTH_SECRET,
     providers: [
         CredentialsProvider({
             name: 'credentials',
